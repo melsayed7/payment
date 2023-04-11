@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:payment/screens/payment_method/home_screen.dart';
 import 'package:payment/screens/register_screen/cubit/cubit.dart';
 import 'package:payment/screens/register_screen/cubit/states.dart';
 
@@ -20,7 +21,11 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => PaymentCubit(),
       child: BlocConsumer<PaymentCubit, PaymentStates>(
-        listener: (context, state) {},
+        listener: (context, state) {
+          if (state is SuccessfulReferenceKeyKioskState) {
+            Navigator.of(context).pushNamed(HomeScreen.routeName);
+          }
+        },
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
@@ -109,7 +114,15 @@ class RegisterScreen extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          PaymentCubit.get(context).getAuthToken(
+                            amount: amount.text,
+                            email: email.text,
+                            fName: fName.text,
+                            lName: lName.text,
+                            phone: phone.text,
+                          );
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
