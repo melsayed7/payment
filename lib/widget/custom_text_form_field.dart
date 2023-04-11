@@ -9,11 +9,14 @@ class CustomTextFormField extends StatelessWidget {
 
   String? Function(String?)? validator;
 
+  TextInputType inputType;
+
   CustomTextFormField({
     required this.icon,
     required this.hintText,
     required this.validator,
     required this.controller,
+    required this.inputType,
   });
 
   @override
@@ -23,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
+        keyboardType: inputType,
         decoration: InputDecoration(
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
           prefixIcon: icon,
